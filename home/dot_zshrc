@@ -87,7 +87,7 @@ plugins=(
   zsh-autosuggestions
   fzf-zsh-plugin
   zsh-fzf-history-search
-
+  zsh-completions
 
   )
 
