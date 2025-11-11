@@ -156,6 +156,6 @@ alias untar="tar xvf"
 # Voir la doc : https://sw.kovidgoyal.net/kitty/faq/
 alias ssh="TERM=xterm ssh"
 
-alias gcc12="/home/bigouden/documents/cours/coav/tools/gcc-12.2.0/bin/gcc"
-alias g++12="/home/bigouden/documents/cours/coav/tools/gcc-12.2.0/bin/g++"
+alias gcc12="/home/bigouden/Documents/cours/coav/tools/gcc-12.2.0/bin/gcc"
+alias g++12="/home/bigouden/Documents/cours/coav/tools/gcc-12.2.0/bin/g++"
 
