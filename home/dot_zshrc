@@ -3,7 +3,7 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_MAGIC_FUNCTIONS="true"
 DISABLE_COMPFIX="true"
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 autoload -U compinit && compinit
@@ -92,7 +92,7 @@ plugins=(
   )
 
 source $ZSH/oh-my-zsh.sh
-
+source ~/.local/share/../bin
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -128,3 +128,5 @@ source $ZSH_CUSTOM/functions.zsh
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
+
+. "$HOME/.local/share/../bin/env"
