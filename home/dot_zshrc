@@ -129,4 +129,4 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
 
-. "$HOME/.local/share/../bin/env"
+#. "$HOME/.local/share/../bin/env"
