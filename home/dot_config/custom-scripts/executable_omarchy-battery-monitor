@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Designed to be run by systemd timer every 30 seconds and alerts if battery is low
+
+THRESHOLDS=(50 30 15)
+FLAG_DIR="/run/user/$UID"
+BATTERY_LEVEL=$(omarchy-battery-remaining)
+BATTERY_STATE=$(upower -i "$(upower -e | grep 'BAT')" | grep -E "state" | awk '{print $2}')
+
+send_notification() {
+  local level="$1"
+  if [[ "$level" -eq 50 ]]; then
+    notify-send -u critical "󱐋 Attention!" "Battery is down to ${level}%" -i battery-caution -t 30000
+  else
+    notify-send -u critical "󱐋 Time to recharge!" "Battery is down to ${level}%" -i battery-caution -t 30000
+  fi
+}
+
+if [[ -n "$BATTERY_LEVEL" && "$BATTERY_LEVEL" =~ ^[0-9]+$ ]]; then
+  if [[ "$BATTERY_STATE" == "discharging" ]]; then
+    for level in "${THRESHOLDS[@]}"; do
+      flag="${FLAG_DIR}/omarchy_battery_notified_${level}"
+
+      if [[ "$BATTERY_LEVEL" -le "$level" ]]; then
+        if [[ ! -f "$flag" ]]; then
+          if [[ "$level" -eq 10 ]]; then
+            # Compte à rebours de 1 minute avant de mettre en veille
+            for i in {60..1}; do
+              notify-send -u normal "󱐋 Attention!" "Battery is critically low! ${i} seconds until sleep." -i battery-caution -t 1000
+              sleep 1
+            done
+            systemctl suspend  # Mettre le système en veille
+          fi
+          send_notification "$level"
+          touch "$flag"
+        fi
+      else
+        # Réarmement si le niveau de batterie revient au-dessus du seuil
+        rm -f "$flag"
+      fi
+    done
+  else
+    # Si on n'est plus en décharge, on réarme tout
+    rm -f "${FLAG_DIR}"/omarchy_battery_notified_*
+  fi
+fi
+
+
